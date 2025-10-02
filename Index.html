@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sixteen Mirrors - Emotion Reflection Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="mystical-bg" id="mystical-bg"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>Sixteen Mirrors</h1>
+        <p>Emotion Awareness & Reflection Game</p>
+    </header>
+
+    <!-- Welcome Screen -->
+    <div id="join-screen" class="screen active">
+        <div class="mystical-card">
+            <h2>Welcome to Sixteen Mirrors</h2>
+            <p>Ever feel like you have different sides of yourself? One day you're bold like a lion. Another day you're patient like a turtle. Sometimes you're diving deep like a whale. Other times you're soaring high like a hawk.</p>
+            
+            <div class="disclaimer">
+                <strong>Here's what this is:</strong> You're about to meet 16 spirit animal guides across four chambers: Fire, Earth, Water, and Air. These animals aren't real beings giving you advice. They're metaphors. They represent different patterns you already have inside you. Think of them as different mirrors reflecting back parts of yourself you might not always see. This journey helps you recognize which reflection you're looking at and what it's showing you.
+            </div>
+            
+            <div class="btn-container">
+                <button onclick="showStoryScreen()" class="mystical-btn">Enter the Mirror Room</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story/Instructions Screen -->
+    <div id="story-screen" class="screen">
+        <div class="mystical-card">
+            <h2>Entering the Mirror Room</h2>
+            
+            <div class="story-content">
+                <p>You're about to enter a room with sixteen mirrors. Each one reflects a different part of you back to yourself. Some reflections you'll recognize immediately. Others might surprise you.</p>
+                
+                <p>These aren't ordinary mirrors. They're arranged in four chambers: Fire, Earth, Water, and Air. Each chamber holds four guides, and each guide shows you a different pattern you carry. When you look into these mirrors, you see yourself in moments you might not always remember or acknowledge.</p>
+                
+                <div class="how-it-works">
+                    <h3>How the Mirrors Work</h3>
+                    <p><strong>Phase One (Rounds 1-20):</strong> You'll meet each of the 16 guides. Each one will share a struggle and ask for your advice based on your own experience. When you help them, you're actually looking at your own reflection. This phase is about recognizing patterns by seeing them in others first.</p>
+                    
+                    <p><strong>Phase Two (Rounds 21-40):</strong> Each guide returns with harder questions. This time, you look directly at yourself. You complete sentences about your own patterns. No more helping others—time to stand in front of the mirror and be honest about what you see.</p>
+                    
+                    <p><strong>Wisdom Rounds:</strong> Throughout your journey, you'll encounter scenarios where you share wisdom by choosing advice that feels right to you. These rounds reveal your values and how you naturally respond to conflict.</p>
+                    
+                    <p><strong>Emotion Selection:</strong> After completing your reflection in each guide round, you'll name the emotion that lives in the action you just described. This helps you recognize your emotional patterns.</p>
+                </div>
+                
+                <p class="complete-rounds">Complete all 40 rounds to see all sixteen reflections across both phases.</p>
+            </div>
+            
+            <div class="btn-container">
+                <button onclick="showNameInput()" class="mystical-btn success">Enter the Mirror Room</button>
+                <button onclick="showScreen('join')" class="mystical-btn secondary small">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Name Input Screen -->
+    <div id="name-screen" class="screen">
+        <div class="mystical-card small-card">
+            <h2>Let's Begin</h2>
+            
+            <div class="input-group">
+                <label for="player-name">What should we call you?</label>
+                <input type="text" id="player-name" class="mystical-input" placeholder="Enter your name..." maxlength="20">
+            </div>
+            
+            <div class="btn-container">
+                <button onclick="startGame()" class="mystical-btn">Start Journey</button>
+                <button onclick="showScreen('story')" class="mystical-btn secondary small">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div class="mystical-card">
+            <!-- Navigation -->
+            <div class="game-nav">
+                <button class="nav-btn" onclick="showPastReflections()">Past Reflections</button>
+                <button class="nav-btn" onclick="saveAndExit()">Save & Exit</button>
+            </div>
+
+            <!-- Progress Container -->
+            <div class="progress-container">
+                <div class="progress-header">
+                    <div class="progress-label">Your Journey</div>
+                    <div class="progress-info">Round <span id="progress-round">1</span> of 40</div>
+                </div>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar-fill" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <!-- Round Indicator -->
+            <div class="round-indicator">
+                <span>Round <span id="current-round">1</span></span>
+            </div>
+
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active" id="step-1"></div>
+                <div class="step" id="step-2"></div>
+                <div class="step" id="step-3"></div>
+                <div class="step" id="step-4"></div>
+            </div>
+
+            <!-- Question Phase Container -->
+            <div id="question-phase">
+                <!-- Guide Story Section -->
+                <div id="guide-story-section"></div>
+                
+                <!-- Prompt Container (for regular rounds) -->
+                <div id="prompt-container" class="prompt-section"></div>
+
+                <!-- Element Round Container (for advice-giving rounds) -->
+                <div id="element-container" class="element-section" style="display: none;"></div>
+
+                <!-- Emotion Selector -->
+                <div class="emotion-selector" id="emotion-selector-container">
+                    <div class="emotion-selector-title">What emotion lives in that action you just described?</div>
+                    <div id="selected-emotion-display" class="emotion-display-placeholder">
+                        <span id="selected-emotion-text">Choose a category below, then select a specific emotion</span>
+                    </div>
+                    
+                    <!-- Emotion Tabs -->
+                    <div class="emotion-tabs" id="emotion-tabs"></div>
+                    
+                    <!-- Emotion Variations Panel -->
+                    <div class="emotion-variations" id="emotion-variations"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit-container">
+                    <button onclick="submitAnswer()" class="mystical-btn" id="submit-btn">Submit Reflection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+        <div class="mystical-card">
+            <h2>What the Mirrors Showed You</h2>
+            
+            <div class="results-summary">
+                <h3>You looked into all 16 mirrors across <span id="total-rounds">0</span> rounds</h3>
+            </div>
+
+            <div class="stats-grid" id="stats-container"></div>
+
+            <div class="btn-container">
+                <button onclick="downloadReport()" class="mystical-btn success">Download Your Reflection Map</button>
+                <button onclick="playAgain()" class="mystical-btn">New Journey</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Past Reflections Modal -->
+    <div class="modal-overlay" id="reflections-overlay" onclick="closePastReflections()"></div>
+    <div class="modal-content" id="reflections-modal" style="display: none;">
+        <div class="modal-header">
+            <h3>Your Reflections</h3>
+            <button class="close-btn" onclick="closePastReflections()">&times;</button>
+        </div>
+        <div id="reflections-list"></div>
+    </div>
+
+    <!-- Link JavaScript Files -->
+    <script src="game-data.js"></script>
+    <script src="game-logic.js"></script>
+</body>
+</html>
